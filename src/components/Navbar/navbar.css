@@ -1,0 +1,142 @@
+.navbar {
+  width: 100%;
+  height: 80px;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0px;
+  background-color: var(--bg-color);
+  padding: 20px;
+}
+.empty-box {
+  width: 100%;
+  height: 80px;
+}
+.navbar form {
+  width: 45%;
+  position: relative;
+  display: flex;
+  margin-right: 100px;
+}
+.navbar form input {
+  border: 1px solid var(--border-color);
+  background-color: transparent;
+  outline: none;
+  padding: 10px;
+  flex: 1;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  font-size: medium;
+  border-right: 0px;
+}
+.navbar form button {
+  border: 1px solid var(--border-color);
+  background-color: transparent;
+  outline: none;
+  font-size: medium;
+  cursor: pointer;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  padding: 10px;
+  color: var(--very-light-color);
+}
+.nav-account {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.add-svg {
+  fill: var(--very-light-color);
+  width: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-right: 20px;
+}
+.add-svg-wrapper {
+  position: relative;
+}
+.add-svg:hover {
+  fill: var(--mid-white-text);
+}
+.bell-svg {
+  fill: var(--very-light-color);
+  width: 25px;
+  cursor: pointer;
+  height: 25px;
+  margin-bottom: 5px;
+  transition: 0.2s;
+  margin-right: 20px;
+  /* display: none; */
+}
+.add-contentType {
+  position: absolute;
+  border-radius: 8px;
+  width: 100px;
+  top: 40px;
+  right: 0;
+  border: 1px solid var(--border-color);
+  background-color: var(--light-color);
+}
+.add-contentType p {
+  width: 100%;
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+  text-align: center;
+  color: var(--very-light-color);
+}
+.add-contentType p:hover {
+  color: white !important;
+}
+.nav-avatar {
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  position: relative;
+  background-color: var(--border-color);
+}
+.logInOrSignup {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.logInOrSignup div {
+  padding: 10px 30px;
+  border-radius: 8px;
+}
+.signIn-btn {
+  background-color: var(--primary-color);
+  cursor: pointer;
+  transition: 0.2s;
+}
+.signIn-btn:hover {
+  background-color: var(--primary-color-darker);
+}
+.signUp-btn {
+  border-radius: 8px;
+  margin-right: 10px;
+  color: var(--very-light-color);
+  transition: 0.2s;
+  border: 1px solid var(--very-light-color);
+  cursor: pointer;
+}
+.signUp-btn:hover {
+  color: var(--mid-white-text);
+  border: 1px solid var(--mid-white-text);
+}
+/* user menu */
+
+.userMenu {
+  width: 300px;
+  height: 500px;
+  right: 60px;
+  border-radius: 8px;
+  position: absolute;
+  top: 0px;
+  z-index: 20;
+  background-color: var(--light-color);
+  border: 1px solid var(--border-color);
+}

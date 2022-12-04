@@ -1,0 +1,22 @@
+.menu {
+  max-width: 1300px;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+  justify-content: space-between;
+  align-items: center;
+  height: fit-content;
+  gap: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+.menuItem {
+  width: 295px;
+  height: 200px;
+  border-radius: 8px;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--border-color);
+}
