@@ -15,6 +15,7 @@ import CreateDebate from "./pages/CreateDebate/CreateDebate";
 import PublishingDebate from "./pages/PublishingDebate/PublishingDebate";
 
 const App = () => {
+  console.log(process.env);
   return (
     <div className="app">
       <UserAuthCtxProvider>
