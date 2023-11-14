@@ -1,27 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
+  margin: 0px;
+  padding: 0px;
+  color: rgb(244, 244, 244);
+  box-sizing: border-box;
+  object-fit: cover !important;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-color: #101010;
+}
+/* max width: 1000px */
+:root {
+  --bg-2: #121212;
+  --bg-3: #161616;
+  --light-bg: #202020;
+  --border-color: #202020;
+  --border-color-2: #373737;
+  --dark-text: #c0c0c0;
+  --white-bg: #999999;
+  --text-color: rgb(255, 255, 255);
+  --placeholder-text: #404040;
+  --light-hover: #171717;
+  --wrapper-1: #10101047;
+  --wrapper-2: #1010107b;
+  --shadow-bg: #101010a1;
+  --shadow-2-bg: #101010cc;
+  --primary-color-border: #163134;
+  --primary-color: rgb(89, 244, 255);
+  --primary-color-transparent-1: rgba(89, 244, 255, 0.593);
+}
+input::placeholder {
+  color: #404040;
+}
+textarea::placeholder {
+  color: #404040;
 }
