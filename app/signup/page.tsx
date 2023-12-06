@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react"; // react
-import { signUp } from "@/app/actions/users/signUp";
 
 import Link from "next/link";
 
@@ -9,11 +8,6 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    signUp(email, username, password);
-  };
 
   return (
     <div className="w-full h-[100vh] flex justify-center items-center">
@@ -23,7 +17,7 @@ function Signup() {
         </h1>
         <form
           className="flex-col flex gap-2 justify-between h-full "
-          onSubmit={handleSubmit}
+          // onSubmit={handleSubmit}
         >
           <div className="flex-col flex gap-2 pt-0">
             <input
