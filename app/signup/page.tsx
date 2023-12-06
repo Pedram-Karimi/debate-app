@@ -1,12 +1,20 @@
 "use client";
 
 import { useState } from "react"; // react
+import { signUp } from "@/app/actions/users/signUp";
+
 import Link from "next/link";
 
 function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    signUp(email, username, password);
+  };
+
   return (
     <div className="w-full h-[100vh] flex justify-center items-center">
       <div className="bg-[var(--bg-2)] rounded-lg border border-[var(--border-color)] p-5 flex flex-col h-[70vh] pb-3 w-[95%] sm:w-[30%]">
@@ -15,7 +23,7 @@ function Signup() {
         </h1>
         <form
           className="flex-col flex gap-2 justify-between h-full "
-          // onSubmit={signup}
+          onSubmit={handleSubmit}
         >
           <div className="flex-col flex gap-2 pt-0">
             <input
@@ -38,6 +46,7 @@ function Signup() {
             />
             <input
               placeholder="password"
+              type="password"
               className="bg-transparent p-2 border border-[var(--border-color-2)] rounded-lg outline-none text-[var(--text-color)] placeholder-[var(--placeholder-text)]"
               value={password}
               required

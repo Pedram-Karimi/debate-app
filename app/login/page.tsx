@@ -2,10 +2,31 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const router = useRouter();
+
+  const login = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const userEmail = email;
+    const userPassword = password;
+    const res = await fetch("/api/login", {
+      method: "POST",
+      body: JSON.stringify({ userEmail, userPassword }),
+    });
+    const { success } = await res.json();
+    if (success) {
+      router.push("/protected");
+      router.refresh();
+    } else {
+      alert("Login failed");
+    }
+  };
+
   return (
     <div className="w-full h-[100vh] flex justify-center items-center">
       <div className="bg-[var(--bg-2)] rounded-lg border border-[var(--border-color)] p-5 flex flex-col h-[70vh] pb-3 w-[95%] sm:w-[30%]">
@@ -14,7 +35,7 @@ function Login() {
         </h1>
         <form
           className="flex-col flex gap-2 justify-between h-full "
-          // onSubmit={login}
+          onSubmit={login}
         >
           <div className="flex-col flex gap-2 pt-0">
             <input
