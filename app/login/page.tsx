@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -67,6 +68,12 @@ function Login() {
               <img
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/800px-Google_%22G%22_Logo.svg.png"
                 className="w-[20px] h-[20px]"
+              />
+              <Image
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/800px-Google_%22G%22_Logo.svg.png"
+                width={20}
+                height={20}
+                alt="Google logo"
               />
               <p className="text-[14px] ">Login with google</p>
             </div>

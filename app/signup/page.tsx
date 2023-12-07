@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react"; // react
+import Image from "next/image";
 
 import Link from "next/link";
 
@@ -56,9 +57,15 @@ function Signup() {
             <div className="border-[var(--border-color)] border-b"></div>
             <p className="text-[var(--dark-text)] w-full text-center">or</p>
             <div className="w-full p-2  border border-[#4c8bf5] cursor-pointer rounded-lg hover:bg-[#4c8af537] flex gap-2 items-center">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/800px-Google_%22G%22_Logo.svg.png"
+              {/* <img
+                src=""
                 className="w-[20px] h-[20px]"
+              /> */}
+              <Image
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/800px-Google_%22G%22_Logo.svg.png"
+                width={20}
+                height={20}
+                alt="Google logo"
               />
               <p className="text-[14px] ">Signup with google</p>
             </div>
