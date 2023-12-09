@@ -1,4 +1,7 @@
 import Link from "next/link";
+import AuthBtns from "./AuthBtns";
+import AddBtn from "./AddBtn";
+
 const NavBar: React.FC = () => {
   return (
     <div className="w-full h-16 p-6 border-b border-[var(--border-color-2)] justify-between flex items-center z-20 fixed top-0 backdrop-blur-xl bg-[var(--wrapper-1)]">
@@ -16,19 +19,9 @@ const NavBar: React.FC = () => {
           </button>
         </form>
       </div>
-      <div>
-        <div className="flex gap-2">
-          <Link href="/login" className="decoration-none">
-            <button className="text-[var(--text-color)] px-5 py-[6px]  rounded-lg bg-[var(--dark-text)]  text-black transition hover:bg-[var(--text-color)]">
-              Sign In
-            </button>
-          </Link>
-          <Link href="/signup" className="decoration-none">
-            <button className="text-[var(--text-color)] px-5 py-[6px]  rounded-lg bg-[var(--dark-text)]  text-black transition hover:bg-[var(--text-color)]">
-              Sign Up
-            </button>
-          </Link>
-        </div>
+      <div className="flex gap-4 items-center">
+        <AddBtn />
+        <AuthBtns />
       </div>
     </div>
   );

@@ -14,6 +14,11 @@ body {
   background-color: #101010;
 }
 /* max width: 1000px */
+/*px-5 py-[6px]*/
+/* gap 2 */
+/* icons 6  */
+/* nav hieght 16 */
+/* page padding 6 */
 :root {
   --bg-2: #121212;
   --bg-3: #161616;
@@ -30,6 +35,7 @@ body {
   --shadow-bg: #101010a1;
   --shadow-2-bg: #101010cc;
   --primary-color-border: #163134;
+  --danger-color: red;
   --primary-color: rgb(89, 244, 255);
   --primary-color-transparent-1: rgba(89, 244, 255, 0.593);
 }
