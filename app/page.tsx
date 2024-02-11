@@ -1,19 +1,34 @@
-const Home = () => {
+import { NextResponse } from "next/server";
+import DebateBox from "./_components/debateBox/DebateBox";
+import prisma from "@/prisma/client";
+
+const Home = async () => {
+  async function getDebateRooms() {
+    const debateRooms = await prisma.debateRoom.findMany();
+    return debateRooms;
+  }
+
+  const debateRooms = await getDebateRooms();
+
   return (
     <div className="max-w-[1100px] m-auto flex justify-between mt-16">
       <div className="w-[64%] flex flex-col gap-4 border-l border-r border-[var(--border-color-2)] pt-4 pb-4">
-        {/* <DebateBox
-            debateTitle="Candy on pizza tastes good"
-            debateDescription="Candy gives pizza a very good sweetness that the original version clearly lacks"
-          />
+        {debateRooms.map((room) => (
           <DebateBox
-            debateTitle="Candy on pizza tastes good"
-            debateDescription="Candy gives pizza a very good sweetness that the original version clearly lacks"
+            key={room.id}
+            debateId={room.id}
+            debateTitle={room.title}
+            createdAt={
+              (room.createdAt + "").split(" ")[1] +
+              " " +
+              (room.createdAt + "").split(" ")[2] +
+              " " +
+              (room.createdAt + "").split(" ")[3]
+            }
+            creatorId={room.creatorId as string}
+            debateDescription={room.description}
           />
-          <DebateBox
-            debateTitle="Candy on pizza tastes good"
-            debateDescription="Candy gives pizza a very good sweetness that the original version clearly lacks"
-          /> */}
+        ))}
       </div>
       <div className="w-[33%] h-96 pt-4">
         <div className="w-[100%] h-96 rounded-xl">

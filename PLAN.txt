@@ -1,0 +1,23 @@
+For the self profile
+
+-An avatar image, and ability to change it
+-Account settings like, user name and password
+-Debates participated
+-Self identification tags
+-Bio
+-Debates created
+-Blogs created
+
+For someone else to look at your profile, they would see everything exept your personal information
+like password etc...
+
+How the debate rooms work:
+
+You enter a debate room by clicking on a debate box - can be anywhere in the app, or even external link- 
+in the debate room, there are replies to the original post. people can like or dislike posts. this will not effect the visablity of that post. all kinds of interactions with a post will boot it. negative or positive.
+
+How replies work:
+Person writing the reply state his opinion, and decide his debate status, ready or not. ready means that
+he is waiting for someone to chalange him on his opinion.  
+the person who chalanges him along with himself can decide to make the debate public or private. if its public others can see your debate live. 
+Viewers can also vote each person in a 1v1 debate. but the debaters themselve will not see the likes or dislikes.

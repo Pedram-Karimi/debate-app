@@ -12,16 +12,39 @@ datasource db {
 
 model User {
   id String @id @default(cuid())
-
   email        String @unique
+  username String @unique
+  password String
+  image String
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   debatesCreated DebateRoom[]
+  debateArgs ArgsInDebRoom[]
 }
 
 model DebateRoom {
   id String @id @default(cuid())
-  creator User?   @relation(fields: [creatorId], references: [id])
+  creator User   @relation(fields: [creatorId], references: [id])
+  createdAt        DateTime           @default(now())
   creatorId String
-  topic String
-  
+  title String
+  argsAgainstRoom ArgsInDebRoom[]
+  description String
+}
+
+model ChatRoom {
+  id String @id @default(cuid())
+  messages String[]
+  debateRoomId String
+  chatters String[]
+}
+
+model ArgsInDebRoom {
+  id String @id @default(cuid())
+  room DebateRoom @relation(fields: [roomId], references: [id])
+  creator User   @relation(fields: [creatorId], references: [id])
+  createdAt        DateTime           @default(now())
+  creatorId String
+  roomId String
+  text String
+  readyStatus Boolean @default(false)
 }

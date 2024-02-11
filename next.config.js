@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // output: "export",
+
   experimental: {
     serverActions: true,
   },
@@ -8,7 +9,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "upload.wikimedia.org",
+        hostname: "lh3.googleusercontent.com",
         port: "",
         // pathname: "/account123/**",
       },

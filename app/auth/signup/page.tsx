@@ -1,14 +1,48 @@
 "use client";
 
-import { useState } from "react"; // react
+import { useRef } from "react"; // react
 import Image from "next/image";
+import { signIn } from "next-auth/react";
 
 import Link from "next/link";
 
 function Signup() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+  const email = useRef<string>();
+  const password = useRef<string>();
+  const username = useRef<string>();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const user = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username.current,
+          email: email.current,
+          password: password.current,
+        }),
+      });
+
+      if (user.ok) {
+        signIn("credentials", {
+          email: email,
+          password: password,
+          callbackUrl: "/",
+          redirect: false,
+        });
+        const createdUser = await user.json();
+        console.log("Created debate:", createdUser);
+      } else {
+        console.error("Failed to create user:", user.statusText);
+      }
+    } catch (error) {
+      console.error("Error creating user:", error);
+    }
+  };
 
   return (
     <div className="w-full h-[100vh] flex justify-center items-center">
@@ -18,35 +52,32 @@ function Signup() {
         </h1>
         <form
           className="flex-col flex gap-2 justify-between h-full "
-          // onSubmit={handleSubmit}
+          onSubmit={handleSubmit}
         >
           <div className="flex-col flex gap-2 pt-0">
             <input
-              placeholder="username"
+              placeholder="email"
               className="bg-transparent p-2 border border-[var(--border-color-2)] rounded-lg outline-none text-[var(--text-color)] placeholder-[var(--placeholder-text)]"
-              value={username}
               required
               onChange={(e) => {
-                setUsername(e.target.value);
+                email.current = e.target.value;
               }}
             />
             <input
-              placeholder="email"
+              placeholder="username"
               className="bg-transparent p-2 border border-[var(--border-color-2)] rounded-lg outline-none text-[var(--text-color)] placeholder-[var(--placeholder-text)]"
-              value={email}
               required
               onChange={(e) => {
-                setEmail(e.target.value);
+                username.current = e.target.value;
               }}
             />
             <input
               placeholder="password"
               type="password"
               className="bg-transparent p-2 border border-[var(--border-color-2)] rounded-lg outline-none text-[var(--text-color)] placeholder-[var(--placeholder-text)]"
-              value={password}
               required
               onChange={(e) => {
-                setPassword(e.target.value);
+                password.current = e.target.value;
               }}
             />
           </div>
@@ -57,12 +88,8 @@ function Signup() {
             <div className="border-[var(--border-color)] border-b"></div>
             <p className="text-[var(--dark-text)] w-full text-center">or</p>
             <div className="w-full p-2  border border-[#4c8bf5] cursor-pointer rounded-lg hover:bg-[#4c8af537] flex gap-2 items-center">
-              {/* <img
-                src=""
-                className="w-[20px] h-[20px]"
-              /> */}
               <Image
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/800px-Google_%22G%22_Logo.svg.png"
+                src="/google-logo.png"
                 width={20}
                 height={20}
                 alt="Google logo"
