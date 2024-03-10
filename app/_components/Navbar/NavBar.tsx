@@ -1,8 +1,9 @@
 import Link from "next/link";
 import AuthBtns from "./AuthBtns";
 import AddBtn from "./AddBtn";
+import { FaSearch } from "react-icons/fa";
 
-const NavBar: React.FC = () => {
+const NavBar: React.FC = async () => {
   return (
     <div className="w-full h-16 p-6 border-b border-[var(--border-color-2)] justify-between flex items-center z-20 fixed top-0 backdrop-blur-xl bg-[var(--wrapper-1)]">
       <Link href="/">
@@ -14,8 +15,9 @@ const NavBar: React.FC = () => {
             className="bg-[var(--wrapper-2)] w-[70%] outline-none p-2 rounded-lg border border-[var(--border-color-2)] rounded-r-none border-r-0"
             placeholder="Search"
           />
-          <button className="bg-[var(--wrapper-2)]  p-2 rounded-lg border border-[var(--border-color-2)] rounded-l-none">
-            Search
+          <button className="bg-[var(--wrapper-2)] h-full p-2 rounded-lg border border-[var(--border-color-2)] rounded-l-none text-center">
+            <FaSearch className="absolute" />
+            <span className="text-[transparent]">se</span>
           </button>
         </form>
       </div>

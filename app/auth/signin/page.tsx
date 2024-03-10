@@ -4,8 +4,9 @@ import { signIn } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import jwt from "jsonwebtoken";
 
-function Login() {
+function Login({ params }: { params: { token: string } }) {
   const email = useRef<string>();
   const password = useRef<string>();
 
@@ -14,7 +15,6 @@ function Login() {
     await signIn("credentials", {
       email: email.current,
       password: password.current,
-      redirect: false,
       callbackUrl: "/",
     });
   };
@@ -73,7 +73,7 @@ function Login() {
         </form>
         <p className="pt-2  mt-2 border-t border-[var(--border-color)] text-[16px] text-center text-[var(--dark-text)]">
           Do not have account yet?{" "}
-          <Link href="/signup" className="text-[var(--primary-color)]">
+          <Link href="/auth/signup" className="text-[var(--primary-color)]">
             Signup
           </Link>
         </p>

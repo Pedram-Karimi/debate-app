@@ -5,18 +5,20 @@ import { compare } from "bcrypt";
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-let gUser: {
-  id: string;
-  email: string;
-  username: string;
-  password: string;
-  image: string;
-  createdAt: Date;
-} | null;
+async function getUser(email: string) {
+  const user = await prisma.user.findUnique({
+    where: {
+      email: email,
+    },
+  });
+  return user;
+}
+
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
+
   providers: [
     CredentialsProvider({
       name: "Sign in",
@@ -32,13 +34,9 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.email || !credentials.password) {
           return null;
         }
-        console.log(credentials);
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
-        });
-        gUser = user;
+
+        const user = await getUser(credentials.email);
+
         if (!user) {
           return null;
         }
@@ -52,42 +50,30 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        return {
-          id: user.id,
-          email: user.email,
-          username: user.username as string,
-          image: user.image,
-          createdAt: user.createdAt,
-          randomKey: "Random key",
-        };
+        return user;
       },
     }),
   ],
+
   pages: {
     signIn: "/auth/signin",
   },
   callbacks: {
-    jwt: async ({ token, user }) => {
-      user && (token.user = user);
+    jwt: async ({ token }) => {
       return token;
     },
-    async session({ session, token, user }) {
-      // Send properties to the client, like an access_token and user id from a provider.
-      if (!gUser) {
-        const user = await prisma.user.findUnique({
-          where: {
-            email: session.user?.email as string,
-          },
-        });
-        gUser = user;
-      }
+    async session({ session, token }) {
       session.user = {
-        username: gUser?.username,
-        image: "",
-        id: token.sub,
-        createdAt: gUser?.createdAt,
-        email: token.email,
-      } as any;
+        handle: await getUser(token.email + "").then((data) => {
+          if (data === null) {
+            return "no handle";
+          }
+          return data.handle;
+        }),
+        email: token.email as string,
+        id: token.sub as string,
+      };
+
       return session;
     },
   },

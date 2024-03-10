@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     if (argCreator === null) {
       return NextResponse.json("you are invalid");
     }
-    const createDebate = await prisma.argsInDebRoom.create({
+    const createDebate = await prisma.replyToDebate.create({
       data: {
         creator: { connect: { id: argCreator.id } },
         room: { connect: { id: debRoom } },
@@ -19,5 +19,7 @@ export async function POST(req: Request) {
       },
     });
     return NextResponse.json("success");
+  } else {
+    return NextResponse.json("nope");
   }
 }

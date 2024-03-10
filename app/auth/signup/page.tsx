@@ -1,17 +1,17 @@
 "use client";
 
-import { useRef } from "react"; // react
+import { useRef, useState } from "react"; // react
 import Image from "next/image";
-import { signIn } from "next-auth/react";
-
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 function Signup() {
   const email = useRef<string>();
   const password = useRef<string>();
   const username = useRef<string>();
+  const handle = useRef<string>();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const credentialsSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -24,23 +24,23 @@ function Signup() {
           username: username.current,
           email: email.current,
           password: password.current,
+          handle: handle.current,
         }),
       });
 
       if (user.ok) {
-        signIn("credentials", {
-          email: email,
-          password: password,
-          callbackUrl: "/",
-          redirect: false,
-        });
         const createdUser = await user.json();
+        await signIn("credentials", {
+          email: email.current,
+          password: password.current,
+          callbackUrl: `/auth/verify-email?id=${createdUser.id}`,
+        });
         console.log("Created debate:", createdUser);
       } else {
-        console.error("Failed to create user:", user.statusText);
+        console.error("Failed to create user:", user);
       }
-    } catch (error) {
-      console.error("Error creating user:", error);
+    } catch (err) {
+      console.error("Error creating user:", err);
     }
   };
 
@@ -50,9 +50,10 @@ function Signup() {
         <h1 className="text-[var(--text-color)] text-2xl text-center pb-5 font-bold pt-0">
           Sign up
         </h1>
+
         <form
           className="flex-col flex gap-2 justify-between h-full "
-          onSubmit={handleSubmit}
+          onSubmit={credentialsSubmit}
         >
           <div className="flex-col flex gap-2 pt-0">
             <input
@@ -64,7 +65,7 @@ function Signup() {
               }}
             />
             <input
-              placeholder="username"
+              placeholder="Username"
               className="bg-transparent p-2 border border-[var(--border-color-2)] rounded-lg outline-none text-[var(--text-color)] placeholder-[var(--placeholder-text)]"
               required
               onChange={(e) => {
@@ -72,7 +73,15 @@ function Signup() {
               }}
             />
             <input
-              placeholder="password"
+              placeholder="Handle"
+              className="bg-transparent p-2 border border-[var(--border-color-2)] rounded-lg outline-none text-[var(--text-color)] placeholder-[var(--placeholder-text)]"
+              required
+              onChange={(e) => {
+                handle.current = e.target.value;
+              }}
+            />
+            <input
+              placeholder="Password"
               type="password"
               className="bg-transparent p-2 border border-[var(--border-color-2)] rounded-lg outline-none text-[var(--text-color)] placeholder-[var(--placeholder-text)]"
               required
@@ -98,9 +107,10 @@ function Signup() {
             </div>
           </div>
         </form>
+
         <p className="pt-2  mt-2 border-t border-[var(--border-color)] text-[16px] text-center text-[var(--text-color)]">
           Do you have an account?{" "}
-          <Link href="signin" className="text-[var(--primary-color)]">
+          <Link href="/auth/signin" className="text-[var(--primary-color)]">
             Login
           </Link>
         </p>

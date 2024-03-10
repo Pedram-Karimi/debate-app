@@ -1,6 +1,8 @@
 import Image from "next/image";
 import prisma from "@/prisma/client";
 import DebateBox from "@/app/_components/debateBox/DebateBox";
+import UserInfo from "./UserInfo";
+
 async function page({ params }: { params: { userId: string } }) {
   async function getUser() {
     const user = await prisma.user.findUnique({
@@ -29,33 +31,27 @@ async function page({ params }: { params: { userId: string } }) {
                 debateTitle={debate.title}
                 creatorId={debate.creatorId as string}
                 debateDescription={debate.description}
-                createdAt=""
+                createdAt={
+                  (debate?.createdAt + "").split(" ")[1] +
+                  " " +
+                  (debate?.createdAt + "").split(" ")[2] +
+                  " " +
+                  (debate?.createdAt + "").split(" ")[3]
+                }
               />
             );
           })}
         </div>
       </div>
-      <div className="w-[33%] h-96 pt-4">
-        <Image
-          src={user?.image as string}
-          width={100}
-          height={100}
-          alt="Picture of the author"
+      {user !== null && (
+        <UserInfo
+          username={user.username}
+          email={user.email}
+          image={user.image}
+          handle={user.handle}
+          id={user.id}
         />
-
-        <p>
-          <span className="font-bold">Name:</span> {user?.username}
-        </p>
-        <p>
-          <span className="font-bold">Email:</span> {user?.email}
-        </p>
-        <p>
-          <span className="font-bold">Joined:</span> {user?.createdAt + ""}
-        </p>
-        <p>
-          <span className="font-bold">Public ID:</span> {"something"}
-        </p>
-      </div>
+      )}
     </div>
   );
 }

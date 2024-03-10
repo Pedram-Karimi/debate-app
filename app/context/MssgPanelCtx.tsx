@@ -1,3 +1,4 @@
+"use client";
 import { createContext, useContext, useState } from "react";
 
 const MssgPanelContext = createContext<any>(null);
@@ -8,11 +9,11 @@ type ChildComponents = {
 
 export function MssgPanelCtxProvider({ children }: ChildComponents) {
   const [panelStatue, setPanelStatus] = useState<boolean>(false);
-  function changePanelStatus() {
-    setPanelStatus(!panelStatue);
-  }
+  // function changePanelStatus() {
+  //   setPanelStatus(!panelStatue);
+  // }
   return (
-    <MssgPanelContext.Provider value={{ changePanelStatus, panelStatue }}>
+    <MssgPanelContext.Provider value={{ setPanelStatus, panelStatue }}>
       {children}
     </MssgPanelContext.Provider>
   );

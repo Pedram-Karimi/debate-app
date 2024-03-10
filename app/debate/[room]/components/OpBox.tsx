@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 interface Props {
   title: string;
@@ -8,6 +7,7 @@ interface Props {
   createdAt: string;
   creatorImg: string;
   creatorName: string;
+  creatorHandle: string;
 }
 function OpBox({
   title,
@@ -17,6 +17,7 @@ function OpBox({
   createdAt,
   creatorImg,
   creatorName,
+  creatorHandle,
 }: Props) {
   return (
     <div className="w-[64%] ">
@@ -24,8 +25,9 @@ function OpBox({
         <div className="flex gap-2 items-center">
           <img
             src={
-              creatorImg ??
-              "https://www.gravatar.com/avatar/b3568450826559f6ce26b424b8283279.jpg?size=240&d=https%3A%2F%2Fwww.artstation.com%2Fassets%2Fdefault_avatar.jpg"
+              creatorImg
+                ? creatorImg
+                : "https://www.gravatar.com/avatar/b3568450826559f6ce26b424b8283279.jpg?size=240&d=https%3A%2F%2Fwww.artstation.com%2Fassets%2Fdefault_avatar.jpg"
             }
             className="w-[45px] h-[45px] rounded-full cursor-pointer border border-[var(--border-color-2)]"
           />

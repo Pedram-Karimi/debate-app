@@ -1,22 +1,35 @@
-"use client";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 import NavUserAva from "./NavUserAva";
-import { signIn } from "next-auth/react";
-import { useEffect, useState } from "react";
-function AuthBtns() {
-  const { data, status } = useSession();
-  console.log(data, status, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import prisma from "@/prisma/client";
+import { User } from "@/types/globals";
+
+async function AuthBtns() {
+  const session = await getServerSession(authOptions);
+  function exclude<
+    User extends { [s: string]: unknown },
+    Key extends keyof User
+  >(user: User, keys: String[]): Omit<User, Key> {
+    return Object.fromEntries(
+      Object.entries(user).filter(([key]) => !keys.includes(key))
+    ) as Omit<User, Key>;
+  }
+  let userAll = null;
+  if (session) {
+    userAll = await prisma.user.findUnique({
+      where: {
+        id: session?.user.id,
+      },
+    });
+  }
+
+  const user = userAll ? exclude(userAll, ["password"]) : null;
   return (
     <>
-      <div className={`gap-2 ${data ? "hidden" : "flex"}`}>
+      <div className={`gap-2 ${session ? "hidden" : "flex"}`}>
         <Link href="/auth/signin" className="decoration-none">
-          <button
-            className="text-[var(--text-color)] px-5 py-[6px]  rounded-lg bg-[var(--dark-text)]  text-black transition hover:bg-[var(--text-color)]"
-            // onClick={() => {
-            //   signIn();
-            // }}
-          >
+          <button className="text-[var(--text-color)] px-5 py-[6px]  rounded-lg bg-[var(--dark-text)]  text-black transition hover:bg-[var(--text-color)]">
             Sign In
           </button>
         </Link>
@@ -26,14 +39,12 @@ function AuthBtns() {
           </button>
         </Link>
       </div>
-      {status == "authenticated" && (
+      {session && (
         <div className="gap-2">
           <NavUserAva
-            name={data.user?.name as string}
-            email={data.user?.email as string}
-            image={data.user?.image as string}
-            /** @ts-ignore */
-            id={data?.user?.id}
+            email={session.user.email as string}
+            id={session.user.id as string}
+            user={user as User}
           />
         </div>
       )}

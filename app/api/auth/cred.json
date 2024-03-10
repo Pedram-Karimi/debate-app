@@ -1,0 +1,20 @@
+{
+  "web": {
+    "client_id": "320203283975-9hg5h22juhiivmrugg150ruqjmr7q741.apps.googleusercontent.com",
+    "project_id": "pivotal-triode-407523",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "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",
+    "redirect_uris": ["https://developers.google.com/oauthplayground"]
+  },
+  "web2": {
+    "client_id": "894938820161-ipqsd6taf3outcm0qoubhb5ed3m5dp3d.apps.googleusercontent.com",
+    "project_id": "debate-app-414804",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "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",
+    "redirect_uris": ["https://developers.google.com/oauthplayground/"]
+  }
+}
