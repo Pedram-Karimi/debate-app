@@ -30,7 +30,7 @@ function UserInfo({
     if (userImage) {
       const image = new FormData();
       image.append("image", userImage);
-      await uploadImage(id, image);
+      await uploadImage(image);
     }
   };
 
@@ -39,7 +39,7 @@ function UserInfo({
   }, [userImage]);
 
   const changeUsername = async () => {
-    const updated = await updateUser(id, { username: usernameInput });
+    const updated = await updateUser({ username: usernameInput });
     if (updated) {
       setUsernameFormState(false);
     }
@@ -47,7 +47,7 @@ function UserInfo({
   };
 
   const changeHandle = async () => {
-    const updated = await updateUser(id, { handle: handleInput });
+    const updated = await updateUser({ handle: handleInput });
     if (updated) {
       setHandleFormState(false);
     }
@@ -89,7 +89,7 @@ function UserInfo({
           <input
             className={`outline-none bg-transparent w-fit `}
             type="text"
-            defaultValue={username}
+            // defaultValue={username}
             value={usernameInput}
             onChange={(e) => {
               setUsernameInput(e.currentTarget.value);

@@ -16,8 +16,11 @@ const Home = async () => {
         {debateRooms.map((room) => (
           <DebateBox
             key={room.id}
-            debateId={room.id}
-            debateTitle={room.title}
+            id={room.id}
+            title={room.title}
+            media={room.media}
+            statement={room.statement}
+            currCat={room.currCat}
             createdAt={
               (room.createdAt + "").split(" ")[1] +
               " " +
@@ -26,13 +29,13 @@ const Home = async () => {
               (room.createdAt + "").split(" ")[3]
             }
             creatorId={room.creatorId as string}
-            debateDescription={room.description}
+            description={room.description}
           />
         ))}
       </div>
       <div className="w-[33%] h-96 pt-4">
         <div className="w-[100%] h-96 rounded-xl">
-          <p className="font-bold text-[22px]">Hot Debates</p>
+          <p className="font-bold text-[22px]">Popular Tags</p>
         </div>
       </div>
     </div>

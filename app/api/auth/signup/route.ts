@@ -2,10 +2,24 @@ import prisma from "@/prisma/client";
 import { NextResponse } from "next/server";
 import { google } from "googleapis";
 import nodemailer from "nodemailer";
+import jwt from "jsonwebtoken";
 import fs from "node:fs";
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
   const { email, password, username, handle } = await req.clone().json();
+
+  // check if user already exists
+
+  const check = await prisma.user.findUnique({
+    where: { email: email as string },
+  });
+
+  if (check) {
+    return NextResponse.json(null, {
+      status: 409,
+      statusText: "email already in use",
+    });
+  }
 
   const user = await prisma.user.create({
     data: {
@@ -16,6 +30,7 @@ export async function POST(req: Request, res: Response) {
       image: "",
     },
   });
+
   const oAuth2Client = new google.auth.OAuth2(
     process.env.CLIENT_ID,
     process.env.CLIENT_SECRET,
@@ -53,11 +68,7 @@ export async function POST(req: Request, res: Response) {
       };
 
       const uuid = await generateRandomString(8);
-
-      fs.writeFileSync(
-        "C:/react-app/debate-app-v2/app/api/auth/signup/code.txt",
-        uuid
-      );
+      fs.writeFileSync("C:/apps/debate-app/app/api/auth/signup/code.txt", uuid);
 
       const mailOptions = {
         from: process.env.USER_EMAIL,
@@ -72,14 +83,23 @@ export async function POST(req: Request, res: Response) {
     }
   }
   sendEmail();
+
   if (!user) {
     return NextResponse.json(user);
   }
+
+  // const token = jwt.sign(
+  //   { userId: user.id, email: user.email, handle: user.handle },
+  //   process.env.JWT_SECRET + "",
+  //   { expiresIn: "7d" }
+  // );
+
   return NextResponse.json({
     id: user.id,
     email: user.email,
     username: user.username,
     image: user.image,
     createdAt: user.createdAt,
+    // token,
   });
 }

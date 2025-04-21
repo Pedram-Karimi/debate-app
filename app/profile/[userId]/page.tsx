@@ -27,10 +27,13 @@ async function page({ params }: { params: { userId: string } }) {
             return (
               <DebateBox
                 key={debate.id}
-                debateId={debate.id}
-                debateTitle={debate.title}
+                media={debate.media}
+                statement={debate.statement}
+                currCat={debate.currCat}
+                id={debate.id}
+                title={debate.title}
                 creatorId={debate.creatorId as string}
-                debateDescription={debate.description}
+                description={debate.description}
                 createdAt={
                   (debate?.createdAt + "").split(" ")[1] +
                   " " +

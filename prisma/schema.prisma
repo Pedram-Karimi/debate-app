@@ -3,11 +3,13 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["metrics"]
 }
-
+// neon: postgresql://player_owner:bIjCXH2d5FQU@ep-dark-dust-a5v094ig.us-east-2.aws.neon.tech/player?sslmode=require
+// koyeb: postgres://koyeb-adm:C5Fda4VPJhGg@ep-misty-forest-a4gp1h2n.us-east-1.pg.koyeb.app/koyebdb
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://debate-db_owner:4mUkeyT3Lslo@ep-summer-limit-a55ystbr.us-east-2.aws.neon.tech/debate-db?sslmode=require"
 }
 
 model User {
@@ -29,6 +31,9 @@ model DebateRoom {
   createdAt        DateTime           @default(now())
   creatorId String
   title String
+  statement String
+  media String
+  currCat String
   replies ReplyToDebate[]
   description String
 }
@@ -38,6 +43,7 @@ model ReplyToDebate {
   room DebateRoom @relation(fields: [roomId], references: [id])
   creator User   @relation(fields: [creatorId], references: [id])
   messages DebateMssg[]
+  challenger String
   createdAt        DateTime           @default(now())
   creatorId String
   roomId String

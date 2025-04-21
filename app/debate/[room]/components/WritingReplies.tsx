@@ -17,7 +17,6 @@ function WritingReplies({ debRoom }: { debRoom: string }) {
         },
         body: JSON.stringify({
           arg,
-          creatorEmail: data?.user?.email,
           debRoom,
         }),
       });

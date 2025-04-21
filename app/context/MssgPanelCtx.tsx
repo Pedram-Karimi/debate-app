@@ -1,24 +1,34 @@
 "use client";
 import { createContext, useContext, useState } from "react";
-
-const MssgPanelContext = createContext<any>(null);
+import { MssgPannelCtxType } from "./types/MssgPannelType";
+const MssgPanelContext = createContext<MssgPannelCtxType | null>(null);
 
 type ChildComponents = {
   children: JSX.Element;
 };
 
 export function MssgPanelCtxProvider({ children }: ChildComponents) {
-  const [panelStatue, setPanelStatus] = useState<boolean>(false);
-  // function changePanelStatus() {
-  //   setPanelStatus(!panelStatue);
-  // }
+  const [panelStatue, setPanelStatus] = useState<{
+    open: boolean;
+    replyId: string;
+    replyWriter: string;
+    debating: boolean;
+  }>({ open: false, replyId: "", replyWriter: "", debating: false });
+  function changePanelStatus(value: {
+    open: boolean;
+    replyId: string;
+    replyWriter: string;
+    debating: boolean;
+  }) {
+    setPanelStatus(value);
+  }
   return (
-    <MssgPanelContext.Provider value={{ setPanelStatus, panelStatue }}>
+    <MssgPanelContext.Provider value={{ changePanelStatus, panelStatue }}>
       {children}
     </MssgPanelContext.Provider>
   );
 }
 
 export function useMssgPanel() {
-  return useContext(MssgPanelContext);
+  return useContext(MssgPanelContext) as MssgPannelCtxType;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
@@ -8,10 +8,16 @@ function Verify() {
   const vCode = useRef<string>();
 
   const searchParams = useSearchParams();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
   const id = searchParams.get("id");
+
   const router = useRouter();
+
   const codeSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const verified = await fetch("/api/auth/verifyEmail", {
         method: "POST",
@@ -23,15 +29,17 @@ function Verify() {
           code: vCode.current,
         }),
       });
-      if (verified) {
+
+      if (verified.ok) {
         console.log("yoho", verified);
         router.push("/", { scroll: false });
       } else {
-        console.log("noo", verified);
+        setError(verified.statusText);
       }
     } catch (err) {
       console.error("Error checking the code:", err);
     }
+    setLoading(false);
   };
 
   return (
@@ -52,12 +60,22 @@ function Verify() {
               onChange={(e) => {
                 vCode.current = e.target.value;
               }}
+              disabled={loading}
             />
+            {error && (
+              <p className="p-2 bg-[var(--error-bg)] flex justify-center rounded-lg">
+                {error}
+              </p>
+            )}
           </div>
+
           <div className="flex-col flex gap-2 pt-0">
             <button
-              type="submit"
-              className="border border-[var(--primary-color-transparent-1)] text-[var(--text-color)] p-2 cursor-pointer rounded-lg hover:bg-[var(--primary-color-transparent-1)] transition "
+              disabled={loading}
+              className={`border border-[var(--primary-color-transparent-1)] text-[var(--text-color)] p-2 cursor-pointer rounded-lg  hover:bg-[var(--primary-color-transparent-1)] transition ${
+                loading &&
+                "pointer-events-none bg-[var(--primary-color-transparent-2)] border-[var(--primary-color-transparent-2)]"
+              }`}
             >
               Submit
             </button>

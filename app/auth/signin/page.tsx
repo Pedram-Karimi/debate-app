@@ -2,21 +2,39 @@
 
 import { signIn } from "next-auth/react";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
-import jwt from "jsonwebtoken";
+import { useRouter } from "next/navigation";
 
-function Login({ params }: { params: { token: string } }) {
+function Login() {
   const email = useRef<string>();
   const password = useRef<string>();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const router = useRouter();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setLoading(true);
+
     await signIn("credentials", {
       email: email.current,
       password: password.current,
       callbackUrl: "/",
+      redirect: false,
+    }).then((response) => {
+      if (response && !response.ok) {
+        console.log(response.error);
+        setError("Email or password is wrong");
+      }
+      if (response && response.ok) {
+        router.refresh();
+        router.push("/");
+      }
     });
+    setLoading(false);
   };
 
   return (
@@ -31,6 +49,7 @@ function Login({ params }: { params: { token: string } }) {
         >
           <div className="flex-col flex gap-2 pt-0">
             <input
+              disabled={loading}
               placeholder="Email"
               className="bg-transparent p-2 border border-[var(--border-color-2)] rounded-lg outline-none text-[var(--text-color)] placeholder-[var(--placeholder-text)]"
               required
@@ -39,6 +58,7 @@ function Login({ params }: { params: { token: string } }) {
               }}
             />
             <input
+              disabled={loading}
               placeholder="Password"
               className="bg-transparent p-2 border border-[var(--border-color-2)] rounded-lg outline-none text-[var(--text-color)] placeholder-[var(--placeholder-text)]"
               required
@@ -49,9 +69,18 @@ function Login({ params }: { params: { token: string } }) {
             />
           </div>
           <div className="flex-col flex gap-2 pt-0">
+            {error && (
+              <p className="p-2 bg-[var(--error-bg)] flex justify-center rounded-lg">
+                {error}
+              </p>
+            )}
             <button
+              disabled={loading}
               type="submit"
-              className="border border-[var(--primary-color-transparent-1)] text-[var(--text-color)] p-2 cursor-pointer rounded-lg hover:bg-[var(--primary-color-transparent-1)] transition "
+              className={`border border-[var(--primary-color-transparent-1)] text-[var(--text-color)] p-2 cursor-pointer rounded-lg hover:bg-[var(--primary-color-transparent-1)] transition ${
+                loading &&
+                "pointer-events-none bg-[var(--primary-color-transparent-2)] border-[var(--primary-color-transparent-2)]"
+              }`}
             >
               login
             </button>

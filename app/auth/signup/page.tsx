@@ -10,11 +10,13 @@ function Signup() {
   const password = useRef<string>();
   const username = useRef<string>();
   const handle = useRef<string>();
-
+  const [error, setError] = useState<string>();
+  const [loading, setLoading] = useState<boolean>(false);
   const credentialsSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setError("");
     try {
+      setLoading(true);
       const user = await fetch("/api/auth/signup", {
         method: "POST",
         headers: {
@@ -35,13 +37,15 @@ function Signup() {
           password: password.current,
           callbackUrl: `/auth/verify-email?id=${createdUser.id}`,
         });
-        console.log("Created debate:", createdUser);
+
+        console.log(createdUser);
       } else {
-        console.error("Failed to create user:", user);
+        setError(user.statusText);
       }
     } catch (err) {
-      console.error("Error creating user:", err);
+      console.log("Error creating user:", err);
     }
+    setLoading(false);
   };
 
   return (
@@ -58,6 +62,7 @@ function Signup() {
           <div className="flex-col flex gap-2 pt-0">
             <input
               placeholder="email"
+              disabled={loading}
               className="bg-transparent p-2 border border-[var(--border-color-2)] rounded-lg outline-none text-[var(--text-color)] placeholder-[var(--placeholder-text)]"
               required
               onChange={(e) => {
@@ -66,6 +71,7 @@ function Signup() {
             />
             <input
               placeholder="Username"
+              disabled={loading}
               className="bg-transparent p-2 border border-[var(--border-color-2)] rounded-lg outline-none text-[var(--text-color)] placeholder-[var(--placeholder-text)]"
               required
               onChange={(e) => {
@@ -74,6 +80,7 @@ function Signup() {
             />
             <input
               placeholder="Handle"
+              disabled={loading}
               className="bg-transparent p-2 border border-[var(--border-color-2)] rounded-lg outline-none text-[var(--text-color)] placeholder-[var(--placeholder-text)]"
               required
               onChange={(e) => {
@@ -82,6 +89,7 @@ function Signup() {
             />
             <input
               placeholder="Password"
+              disabled={loading}
               type="password"
               className="bg-transparent p-2 border border-[var(--border-color-2)] rounded-lg outline-none text-[var(--text-color)] placeholder-[var(--placeholder-text)]"
               required
@@ -89,9 +97,21 @@ function Signup() {
                 password.current = e.target.value;
               }}
             />
+            {error && (
+              <p className="p-2 bg-[var(--error-bg)] flex justify-center rounded-lg">
+                {error}
+              </p>
+            )}
           </div>
+
           <div className="flex-col flex gap-2 pt-0">
-            <button className="border border-[var(--primary-color-transparent-1)] text-[var(--text-color)] p-2 cursor-pointer rounded-lg hover:bg-[var(--primary-color-transparent-1)] transition ">
+            <button
+              disabled={loading}
+              className={`border border-[var(--primary-color-transparent-1)] text-[var(--text-color)] p-2 cursor-pointer rounded-lg  hover:bg-[var(--primary-color-transparent-1)] transition ${
+                loading &&
+                "pointer-events-none bg-[var(--primary-color-transparent-2)] border-[var(--primary-color-transparent-2)]"
+              }`}
+            >
               Signup
             </button>
             <div className="border-[var(--border-color)] border-b"></div>

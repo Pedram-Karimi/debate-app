@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { User } from "@/types/globals";
+import useOnClickOutside from "@/app/hooks/useOnClickOutside";
 
 function NavUserAva({
   email,
@@ -15,10 +16,13 @@ function NavUserAva({
   user: User;
 }) {
   const [popup, setPopUp] = useState<boolean>(false);
-
+  const avatar = useRef<HTMLImageElement>(null);
+  const avaBox = useRef<HTMLDivElement>(null);
+  useOnClickOutside(avaBox, avatar, () => setPopUp(false));
   return (
     <>
       <img
+        ref={avatar}
         src={
           user?.image
             ? user.image
@@ -31,7 +35,10 @@ function NavUserAva({
       />
 
       {popup && (
-        <div className="bg-[var(--bg-3)] z-50 absolute w-[300px] h-fit right-4 border border-[var(--border-color)] rounded-lg p-3 top-16">
+        <div
+          className="bg-[var(--bg-3)] z-50 absolute w-[300px] h-fit right-4 border border-[var(--border-color)] rounded-lg p-3 top-16"
+          ref={avaBox}
+        >
           <ul>
             <li className="flex gap-2 pb-2 mb-2 cursor-pointer border-b border-[var(--border-color)] text-base text-[var(--dark-text)] hover:text-[var(--text-color)]">
               <Link href={`/profile/${id}`}>

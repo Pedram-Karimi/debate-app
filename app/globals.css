@@ -37,8 +37,10 @@ body {
   --shadow-2-bg: #101010cc;
   --primary-color-border: #163134;
   --danger-color: red;
+  --error-bg: rgba(252, 26, 26, 0.275);
   --primary-color: rgb(89, 244, 255);
   --primary-color-transparent-1: rgba(89, 244, 255, 0.593);
+  --primary-color-dark: rgb(34, 91, 95);
 }
 input::placeholder {
   color: #404040;

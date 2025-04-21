@@ -21,3 +21,17 @@ Person writing the reply state his opinion, and decide his debate status, ready 
 he is waiting for someone to chalange him on his opinion.  
 the person who chalanges him along with himself can decide to make the debate public or private. if its public others can see your debate live. 
 Viewers can also vote each person in a 1v1 debate. but the debaters themselve will not see the likes or dislikes.
+
+
+
+
+Cur -- 
+creating a tag sorting/display system
+
+
+Debate room
+
+add the first reply of the opponent to the post
+enable the debate owner to kick the opponent out of the debate
+show that he has kicked the opponent
+like/dislike for the Debates

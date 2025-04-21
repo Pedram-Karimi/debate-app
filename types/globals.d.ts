@@ -8,9 +8,20 @@ export interface User {
   handle: string;
 }
 export interface DebateBox {
-  debateTitle: string;
-  debateDescription: string;
+  title: string;
+  description: string;
   creatorId: string;
-  debateId: string;
+  id: string;
   createdAt: string;
+  media: string;
+  statement: string;
+  currCat: string;
+}
+
+export interface Message {
+  id: string;
+  mssg: string;
+  writerId: string;
+  replyId: string;
+  createdAt: Date;
 }

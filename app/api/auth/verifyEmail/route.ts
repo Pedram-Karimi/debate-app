@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   const { code, id } = await req.clone().json();
   const trueCode = fs.readFileSync(
-    "C:/react-app/debate-app-v2/app/api/auth/signup/code.txt"
+    "C:/apps/debate-app/app/api/auth/signup/code.txt"
   );
   console.log(code, id);
   if (code == trueCode) {
@@ -18,10 +18,7 @@ export async function POST(req: Request) {
       },
     });
 
-    fs.writeFileSync(
-      "C:/react-app/debate-app-v2/app/api/auth/signup/code.txt",
-      ""
-    );
+    fs.writeFileSync("C:/apps/debate-app/app/api/auth/signup/code.txt", "");
 
     return NextResponse.json({
       mssg: "success!",
@@ -29,6 +26,9 @@ export async function POST(req: Request) {
     });
   } else {
     console.log("error!");
-    return NextResponse.json({ mssg: "Wrong code!" });
+    return NextResponse.json(null, {
+      status: 409,
+      statusText: "Wrong code!",
+    });
   }
 }

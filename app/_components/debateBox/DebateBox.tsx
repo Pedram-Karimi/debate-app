@@ -1,13 +1,17 @@
 import prisma from "@/prisma/client";
 import Link from "next/link";
-import { DebateBox } from "@/types/globals";
+import type { DebateBox } from "@/types/globals";
+import Media from "./components/Media";
 //
 const DebateBox = async ({
-  debateTitle,
-  debateId,
-  debateDescription,
+  title,
+  id,
+  description,
   createdAt,
   creatorId,
+  media,
+  currCat,
+  statement,
 }: DebateBox) => {
   async function getUser() {
     const user = await prisma.user.findUnique({
@@ -23,7 +27,7 @@ const DebateBox = async ({
   return (
     <div>
       <div className="w-[100%] gap-2 flex flex-col pr-4 pl-4 ">
-        {/* debate creater */}
+        {/* debate creator */}
         <Link href={`/profile/${creatorId}`} className="w-fit">
           <div className="flex gap-2 items-center">
             <img
@@ -46,25 +50,28 @@ const DebateBox = async ({
             </div>
           </div>
         </Link>
-        <Link href={`/debate/${debateId}`}>
+        <Link href={`/debate/${id}`}>
           {/* debate main line */}
           <div>
-            <p className="text-lg">{debateTitle}</p>
+            <div className="flex justify-between w-full align-middle">
+              <p className="text-[var(--primary-color)] w-fit m-2 font-bold cursor-pointer">
+                {title}
+              </p>
+              <p className="text-sm text-[var(--dark-text) w-fit m-2 cursor-pointer]">
+                {currCat}
+              </p>
+            </div>
+            <p className="text-lg">{statement}</p>
             {/* debate description */}
-            <p className="text-[var(--dark-text)] text-sm">
-              {debateDescription}
-            </p>
-          </div>
-
-          {/* possible media */}
-          <div>
-            {/* <img src={img} className="w-full rounded-xl m-auto max-w-[100%]" /> */}
+            <p className="text-[var(--dark-text)] text-sm">{description}</p>
           </div>
         </Link>
-        {/* debate footer */}
+        <div className="w-full flex justify-center">
+          <Media media={media} />
+        </div>
       </div>
 
-      <div className="w-full h-2 border-b border-[var(--border-color-2)] pl-4 pr-4"></div>
+      <div className="w-full h-6 border-b border-[var(--border-color-2)] pl-4 pr-4"></div>
     </div>
   );
 };

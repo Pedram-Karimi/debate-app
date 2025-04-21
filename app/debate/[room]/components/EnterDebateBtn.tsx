@@ -1,17 +1,30 @@
 "use client";
-import { useContext } from "react";
 import { LuSwords } from "react-icons/lu";
 import { useMssgPanel } from "@/app/context/MssgPanelCtx";
-export default function EnterDebateBtn() {
-  const { setPanelStatus } = useMssgPanel();
+export default function EnterDebateBtn({
+  debating,
+  replyId,
+  replyWriter,
+}: {
+  debating: boolean;
+  replyId: string;
+  replyWriter: string;
+}) {
+  const { changePanelStatus } = useMssgPanel();
   return (
     <button
       className="flex"
       onClick={() => {
-        setPanelStatus(true);
+        changePanelStatus({
+          open: true,
+          debating: debating,
+          replyId: replyId,
+          replyWriter: replyWriter,
+        });
       }}
     >
-      Enter the debate <LuSwords className="text-lg" />
+      Expand the debate
+      {/* <LuSwords className="text-lg" /> */}
     </button>
   );
 }

@@ -50,16 +50,24 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        return user;
+        if (user) {
+          return user;
+        } else {
+          throw new Error(JSON.stringify({ errors: user, status: false }));
+        }
       },
     }),
   ],
 
   pages: {
-    signIn: "/auth/signin",
+    // signIn: "/auth/signin",
   },
   callbacks: {
-    jwt: async ({ token }) => {
+    jwt: async ({ token, account, user }) => {
+      // token.email = account?.token_type;
+      if (account) {
+        token.accessToken = account.access_token;
+      }
       return token;
     },
     async session({ session, token }) {
@@ -73,7 +81,6 @@ export const authOptions: NextAuthOptions = {
         email: token.email as string,
         id: token.sub as string,
       };
-
       return session;
     },
   },

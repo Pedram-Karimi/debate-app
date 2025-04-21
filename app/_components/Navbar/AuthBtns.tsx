@@ -16,6 +16,7 @@ async function AuthBtns() {
     ) as Omit<User, Key>;
   }
   let userAll = null;
+
   if (session) {
     userAll = await prisma.user.findUnique({
       where: {
@@ -25,6 +26,7 @@ async function AuthBtns() {
   }
 
   const user = userAll ? exclude(userAll, ["password"]) : null;
+
   return (
     <>
       <div className={`gap-2 ${session ? "hidden" : "flex"}`}>
